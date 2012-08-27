@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link href="Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/css/custom.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#">SiteMonitR</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="/Default.html">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12 addSiteForm">
+                <label for="siteUrl">Site URL</label>
+                <input type="text" id="siteUrl" name="siteUrl" />
+                <p>
+                    <button class="btn btn-primary btn-large" id="addSite">Add Site</button>
+                    <img src="content/img/spin.gif" id="spin" style="display: none;" />
+                </p>
+            </div>
+        </div>
+        <table class="table" id="sites">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: items">
+                <tr class="site" data-bind="attr: { 'data-url': url }">
+                    <td data-bind="text: url"></td>
+                    <td style="width: 120px;">
+                        <button style="min-width: 100px;" data-bind="attr: { class: cssClass, 'data-url': url }, text: siteStatus"></button>
+                    </td>
+                    <td style="width: 120px;">
+                        <a class="removeSite btn btn-small" data-bind="attr: { 'data-url': url }" href="#"><i class="icon-remove"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <span id="noSitesToMonitorMessage">You have no sites to monitor. To add one, enter in the URL of the site and click the "Add Site" button above.</span>
+    </div>
+
+    <footer>
+        
+    </footer>
+
+    <script src="Scripts/jquery-1.8.0.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.signalR-0.5.3.js" type="text/javascript"></script>
+    <script src="signalr/hubs" type="text/javascript"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/knockout-2.1.0.js"></script>
+    <script src="Scripts/siteMonitorController.js"></script>
+
+</body>
