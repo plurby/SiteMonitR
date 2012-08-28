@@ -1,4 +1,20 @@
-﻿using System;
+﻿// ---------------------------------------------------------------------------------- 
+// Microsoft Developer & Platform Evangelism 
+//  
+// Copyright (c) Microsoft Corporation. All rights reserved. 
+//  
+// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
+// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. 
+// ---------------------------------------------------------------------------------- 
+// The example companies, organizations, products, domain names, 
+// e-mail addresses, logos, people, places, and events depicted 
+// herein are fictitious.  No association with any real company, 
+// organization, product, domain name, email address, logo, person, 
+// places, or events is intended or should be inferred. 
+// ---------------------------------------------------------------------------------- 
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,32 +27,32 @@ namespace SiteMonitR.Web.Hubs
     {
         public void ServiceReady()
         {
-            Clients.ServiceIsUp();
+            Clients.serviceIsUp();
         }
 
         public void ReceiveMonitorUpdate(dynamic monitorUpdate)
         {
-            Clients.notifySiteStatus(monitorUpdate);
+            Clients.siteStatusUpdated(monitorUpdate);
         }
 
         public void AddSiteToGui(string url)
         {
-            Clients.notifySiteAdded(url);
+            Clients.siteAddedToGui(url);
         }
 
         public void RemoveSiteFromGui(string url)
         {
-            Clients.notifySiteRemoved(url);
+            Clients.siteRemovedFromGui(url);
         }
 
         public void AddSite(string url)
         {
-            Clients.SiteAdded(url);
+            Clients.siteAddedToStorage(url);
         }
 
         public void RemoveSite(string url)
         {
-            Clients.SiteRemoved(url);
+            Clients.siteRemovedFromStorage(url);
         }
 
         public void GetSiteList()
@@ -46,7 +62,7 @@ namespace SiteMonitR.Web.Hubs
 
         public void ListOfSitesObtained(List<string> urls)
         {
-            Clients.sitesObtained(urls);
+            Clients.siteListObtained(urls);
         }
 
         public void CheckSite(string url)

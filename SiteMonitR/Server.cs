@@ -1,4 +1,20 @@
-﻿using System;
+﻿// ---------------------------------------------------------------------------------- 
+// Microsoft Developer & Platform Evangelism 
+//  
+// Copyright (c) Microsoft Corporation. All rights reserved. 
+//  
+// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
+// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. 
+// ---------------------------------------------------------------------------------- 
+// The example companies, organizations, products, domain names, 
+// e-mail addresses, logos, people, places, and events depicted 
+// herein are fictitious.  No association with any real company, 
+// organization, product, domain name, email address, logo, person, 
+// places, or events is intended or should be inferred. 
+// ---------------------------------------------------------------------------------- 
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
@@ -56,14 +72,14 @@ namespace SiteMonitR
                     _hub = _connection.CreateProxy("SiteMonitR");
 
                     // whenever a site is added
-                    _hub.On<string>("siteAdded", (siteUrl) =>
+                    _hub.On<string>("siteAddedToStorage", (siteUrl) =>
                         {
                             _siteRepository.Add(siteUrl);
                             _hub.Invoke("addSiteToGui", siteUrl);
                         });
 
                     // whenever a site is removed
-                    _hub.On<string>("siteRemoved", (siteUrl) =>
+                    _hub.On<string>("siteRemovedFromStorage", (siteUrl) =>
                         {
                             _siteRepository.Remove(siteUrl);
                             _hub.Invoke("removeSiteFromGui", siteUrl);
@@ -111,7 +127,7 @@ namespace SiteMonitR
                            }
 
                            // invoke a method on the hub
-                           _hub.Invoke("ReceiveMonitorUpdate", new
+                           _hub.Invoke("receiveMonitorUpdate", new
                            {
                                Url = x,
                                Result = result

@@ -1,6 +1,21 @@
 ﻿/// <reference path="jquery-1.8.0.js" />
 /// <reference path="jquery.signalR-0.5.3.js" />
 /// <reference path="knockout-2.1.0.js" />
+// ---------------------------------------------------------------------------------- 
+// Microsoft Developer & Platform Evangelism 
+//  
+// Copyright (c) Microsoft Corporation. All rights reserved. 
+//  
+// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
+// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
+// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. 
+// ---------------------------------------------------------------------------------- 
+// The example companies, organizations, products, domain names, 
+// e-mail addresses, logos, people, places, and events depicted 
+// herein are fictitious.  No association with any real company, 
+// organization, product, domain name, email address, logo, person, 
+// places, or events is intended or should be inferred. 
+// ---------------------------------------------------------------------------------- 
 $(function () {
 
     $('#noSitesToMonitorMessage').hide();
@@ -71,36 +86,36 @@ $(function () {
     var c = new controller();
 
     c.siteMonitorHub
-        .on('notifySiteStatus', function (monitorUpdate) {
-            c.updateSiteStatus(monitorUpdate);
-            c.toggleSpinner(false);
+        .on('serviceIsUp', function () {
+            c.toggleSpinner(true);
+            c.siteMonitorHub.invoke('getSiteList');
         })
-        .on('notifySiteRemoved', function (url) {
-            $('.site[data-url="' + url + '"]').remove();
-            c.toggleGrid();
-            c.toggleSpinner(false);
-        })
-        .on('notifySiteAdded', function (url) {
-            $('#siteUrl').val('http://');
-            $('#siteUrl').focus();
-            c.toggleSpinner(false);
-            c.toggleGrid();
-        })
-        .on('checkingSite', function (url) {
-            c.toggleSpinner(false);
-            c.updateSite(url, 'btn-info', 'Checking');
-        })
-        .on('sitesObtained', function (sites) {
+        .on('siteListObtained', function (sites) {
             $(sites).each(function (i, site) {
                 c.addSite(site);
             });
             c.toggleSpinner(false);
             c.toggleGrid();
         })
-        .on('serviceIsUp', function () {
-            c.toggleSpinner(true);
-            c.siteMonitorHub.invoke('getSiteList');
-        });;
+        .on('siteStatusUpdated', function (monitorUpdate) {
+            c.updateSiteStatus(monitorUpdate);
+            c.toggleSpinner(false);
+        })
+        .on('siteAddedToGui', function (url) {
+            $('#siteUrl').val('http://');
+            $('#siteUrl').focus();
+            c.toggleSpinner(false);
+            c.toggleGrid();
+        })
+        .on('siteRemovedFromGui', function (url) {
+            $('.site[data-url="' + url + '"]').remove();
+            c.toggleGrid();
+            c.toggleSpinner(false);
+        })
+        .on('checkingSite', function (url) {
+            c.toggleSpinner(false);
+            c.updateSite(url, 'btn-info', 'Checking');
+        });
 
     $('#addSite').click(function () {
         var u = $('#siteUrl').val();
